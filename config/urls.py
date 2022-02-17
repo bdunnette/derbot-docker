@@ -17,7 +17,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("derbot.users.urls", namespace="users")),
-    path("names/", include("derbot.names.urls", namespace="names")),
+    # path("names/", include("derbot.names.urls", namespace="names")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

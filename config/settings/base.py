@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 
 import environ
+import requests
+from mastodon import Mastodon
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +16,7 @@ ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 APPS_DIR = ROOT_DIR / "derbot"
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR / ".env"))
@@ -353,6 +355,21 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+API_BASE_URL = env("API_BASE_URL", default="https://botsin.space")
+MASTO_TOKEN = env("MASTO_TOKEN", default=None)
+MASTO = Mastodon(
+    access_token=MASTO_TOKEN, api_base_url=API_BASE_URL, ratelimit_method="pace"
+)
+
+COLOR_BOT = env("COLOR_BOT", default="accessibleColors@botsin.space")
+ACTUALLY_TOOT = env("ACTUALLY_TOOT", default=False, cast=bool)
+MIN_WAIT = env("MIN_WAIT", default=0, cast=int)
+MAX_WAIT = env("MAX_WAIT", default=0, cast=int)
+
+SESSION = requests.session()
+REQUEST_TIMEOUT = env("REQUEST_TIMEOUT", default=15)
+
 FONT_DIR = env.path("FONT_DIR", default=APPS_DIR.joinpath("names", "fonts"))
 FONTS = env.list("FONTS", default=os.listdir(FONT_DIR))
 TEXT_FONT_SIZE = env.int("TEXT_FONT_SIZE", default=60)

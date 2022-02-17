@@ -1,8 +1,7 @@
-LABEL org.opencontainers.image.source https://github.com/bdunnette/derbot-docker
 ARG PYTHON_VERSION=3.9-slim-bullseye
-
 # define an alias for the specfic python version used in this file.
 FROM python:${PYTHON_VERSION} as python
+LABEL org.opencontainers.image.source https://github.com/bdunnette/derbot-docker
 
 # Python build stage
 FROM python as python-build-stage

@@ -10,16 +10,18 @@ logger = settings.LOGGER
 
 class DerbyName(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    number = models.ForeignKey("DerbyNumber", on_delete=models.SET_NULL, null=True)
+    number = models.ForeignKey(
+        "DerbyNumber", on_delete=models.SET_NULL, blank=True, null=True
+    )
     jersey = models.OneToOneField(
-        "Jersey", on_delete=models.SET_NULL, null=True, blank=True
+        "Jersey", on_delete=models.CASCADE, null=True, blank=True
     )
     registered = models.BooleanField(default=False)
     cleared = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    meta = models.JSONField(default=dict)
+    meta = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -29,21 +31,24 @@ class DerbyNumber(models.Model):
     number = models.CharField(max_length=64, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    meta = models.JSONField(default=dict)
+    meta = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         return self.number
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64)
     hex = ColorField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     pair_with = models.ForeignKey(
         "Color", on_delete=models.SET_NULL, null=True, blank=True
     )
-    meta = models.JSONField(default=dict)
+    meta = models.JSONField(default=dict, null=True, blank=True)
+
+    class Meta:
+        unique_together = ("hex", "pair_with")
 
     def __str__(self):
         return f"{self.name} ({self.hex})"
@@ -60,7 +65,7 @@ class Toot(models.Model):
     date = models.DateTimeField(default=None, null=True, blank=True)
     reblogs_count = models.IntegerField(default=0)
     favourites_count = models.IntegerField(default=0)
-    meta = models.JSONField(default=dict)
+    meta = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         return f"{self.toot_id}: {self.name}"
@@ -78,7 +83,7 @@ class Jersey(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    meta = models.JSONField(default=dict)
+    meta = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         if self.derbyname:

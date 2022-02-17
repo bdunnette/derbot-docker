@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.contrib import admin
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 from django.utils.translation import gettext as _
+from import_export import resources
 from import_export.admin import ImportExportMixin
 
-from derbot.names.models import DerbyName, DerbyNumber, Jersey, Toot
-from derbot.names.tasks import generate_tank
+from derbot.names.models import Color, DerbyName, DerbyNumber, Jersey, Toot
+from derbot.names.tasks import generate_tank, toot_name
 
 logger = settings.LOGGER
 
@@ -39,9 +40,9 @@ class TootedFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "yes":
-            return queryset.filter(~Q(tooted=None))
+            return queryset.filter(Q(Exists(Toot.objects.filter(name=OuterRef("pk")))))
         if self.value() == "no":
-            return queryset.filter(Q(tooted=None))
+            return queryset.filter(~Q(Exists(Toot.objects.filter(name=OuterRef("pk")))))
 
 
 class JerseyFilter(admin.SimpleListFilter):
@@ -61,11 +62,26 @@ class JerseyFilter(admin.SimpleListFilter):
             return queryset.filter(Q(jersey=None))
 
 
+class NameResource(resources.ModelResource):
+    class Meta:
+        model = DerbyName
+        use_bulk = True
+        batch_size = 100
+
+
+class NumberResource(resources.ModelResource):
+    class Meta:
+        model = DerbyNumber
+        use_bulk = True
+        batch_size = 100
+
+
 @admin.register(DerbyName)
 class NameAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "number",
         "cleared",
         "registered",
         "archived",
@@ -73,8 +89,9 @@ class NameAdmin(ImportExportMixin, admin.ModelAdmin):
         "updated",
         "jersey",
     )
-    list_filter = ["registered", "cleared", "archived", JerseyFilter]
-    actions = ["clear", "unclear", "archive", "unarchive", "make_tanks"]
+    list_filter = ["registered", "cleared", "archived", JerseyFilter, TootedFilter]
+    actions = ["clear", "unclear", "archive", "unarchive", "make_tanks", "toot"]
+    resource_class = NameResource
 
     @admin.action(description="Mark selected names as cleared for tooting")
     def clear(self, request, queryset):
@@ -97,13 +114,21 @@ class NameAdmin(ImportExportMixin, admin.ModelAdmin):
         for name in queryset:
             print(name)
             logger.info(f"Generating tank for {name}")
-            generate_tank.s(name.pk)
+            generate_tank.delay(name.pk, overwrite=True)
+
+    @admin.action(description="Toot selected names")
+    def toot(self, request, queryset):
+        logger.info(f"Tooting {queryset.count()} names")
+        for name in queryset:
+            logger.info(f"Tooting {name}")
+            toot_name.delay(name.pk, max_wait=0)
 
 
 @admin.register(DerbyNumber)
 class NumberAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = ("id", "number", "created", "updated")
     list_filter = ["created", "updated"]
+    resource_class = NumberResource
 
 
 @admin.register(Jersey)
@@ -114,3 +139,8 @@ class JerseyAdmin(ImportExportMixin, admin.ModelAdmin):
 @admin.register(Toot)
 class TootAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = ("id", "name", "toot_id", "date")
+
+
+@admin.register(Color)
+class ColorAdmin(ImportExportMixin, admin.ModelAdmin):
+    list_display = ("id", "name", "hex", "pair_with")
