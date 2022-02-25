@@ -3,9 +3,9 @@ python-slugify==5.0.2  # https://github.com/un33k/python-slugify
 Pillow==9.0.1  # https://github.com/python-pillow/Pillow
 argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
 whitenoise==6.0.0  # https://github.com/evansd/whitenoise
-redis==4.1.3  # https://github.com/redis/redis-py
+redis==4.1.4  # https://github.com/redis/redis-py
 hiredis==2.0.0  # https://github.com/redis/hiredis-py
-uvicorn[standard]==0.17.4  # https://github.com/encode/uvicorn
+uvicorn[standard]==0.17.5  # https://github.com/encode/uvicorn
 requests==2.27.1  # https://github.com/psf/requests
 requests-toolbelt==0.9.1  # https://github.com/requests/toolbelt
 beautifulsoup4==4.10.0  # http://www.crummy.com/software/BeautifulSoup/bs4/
@@ -25,7 +25,7 @@ django-celery-results==2.2.0  # https://github.com/celery/django-celery-results
 django==3.2.12  # pyup: < 4.0  # https://www.djangoproject.com/
 django-environ==0.8.1  # https://github.com/joke2k/django-environ
 django-model-utils==4.2.0  # https://github.com/jazzband/django-model-utils
-django-allauth==0.48.0  # https://github.com/pennersr/django-allauth
+django-allauth==0.49.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==1.14.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.6  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django-redis==5.2.0  # https://github.com/jazzband/django-redis
