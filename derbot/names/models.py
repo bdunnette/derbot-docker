@@ -29,6 +29,7 @@ class DerbyName(models.Model):
 
 class DerbyNumber(models.Model):
     number = models.CharField(max_length=64, unique=True)
+    cleared = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     meta = models.JSONField(default=dict, null=True, blank=True)

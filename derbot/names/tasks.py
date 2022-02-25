@@ -12,10 +12,26 @@ from django.db.models import Exists, OuterRef, Q
 from inscriptis import get_text
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageOps
 
-from derbot.names.models import Color, DerbyName, Jersey, Toot
+from derbot.names.models import Color, DerbyName, DerbyNumber, Jersey, Toot
 from derbot.names.utils import hex_to_rgb, text_wrap
 
 logger = settings.LOGGER
+
+
+@shared_task(bind=True, autoretry_for=(Exception,), retry_backoff=True)
+def pick_number(self, name_id):
+    try:
+        name = DerbyName.objects.get(id=name_id)
+        new_number = DerbyNumber.objects.filter(Q(cleared=True)).order_by("?").first()
+        if new_number:
+            name.number = new_number
+            name.save()
+            return name.number.number
+        else:
+            return None
+    except Exception as e:
+        logger.error(f"Error picking number for {name_id}: {e}")
+        raise self.retry(exc=e)
 
 
 @shared_task(
@@ -126,6 +142,7 @@ def generate_tank(self, name_id, overwrite=False):
             return jersey.image.url
     except Exception as error:
         logger.error(f"Error generating tank for {name}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -152,6 +169,7 @@ def fetch_names_twoevils(
         DerbyName.objects.bulk_create(new_name_objs, ignore_conflicts=True)
     except Exception as error:
         logger.error(f"Error fetching names from {url}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -178,6 +196,7 @@ def fetch_names_drc(self, session=settings.SESSION, timeout=settings.REQUEST_TIM
         DerbyName.objects.bulk_create(new_name_objs, ignore_conflicts=True)
     except Exception as error:
         logger.error(f"Error fetching names from {url}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -203,6 +222,7 @@ def fetch_names_wftda(self, session=settings.SESSION, timeout=settings.REQUEST_T
         DerbyName.objects.bulk_create(new_name_objs, ignore_conflicts=True)
     except Exception as error:
         logger.error(f"Error fetching names from {url}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(bind=True, autoretry_for=(Exception,))
@@ -210,8 +230,12 @@ def fetch_names_rdr(
     self,
     initial_letters=string.ascii_uppercase + string.digits + string.punctuation,
 ):
-    result = group(fetch_names_rdr_letter.s(letter) for letter in initial_letters)
-    result.apply_async()
+    try:
+        result = group(fetch_names_rdr_letter.s(letter) for letter in initial_letters)
+        result.apply_async()
+    except Exception as error:
+        logger.error(f"Error fetching names: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -251,6 +275,7 @@ def fetch_names_rdr_letter(
             return False
     except Exception as error:
         logger.error(f"Error fetching names from {url}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -296,6 +321,7 @@ def fetch_colors(self, mastodon=settings.MASTO, color_bot=settings.COLOR_BOT):
             statuses = mastodon.fetch_next(statuses)
     except Exception as error:
         logger.error(f"Error fetching colors from {color_bot}: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -307,24 +333,28 @@ def fetch_colors(self, mastodon=settings.MASTO, color_bot=settings.COLOR_BOT):
     autoretry_for=(Exception,),
 )
 def fetch_toots(self, mastodon=settings.MASTO):
-    account_id = mastodon.account_verify_credentials()["id"]
-    logger.info("Downloading statuses for account {0}...".format(account_id))
-    statuses = mastodon.account_statuses(account_id, exclude_replies=True)
-    while statuses:
-        # logger.debug(statuses)
-        # logger.debug(dir(statuses))
-        new_name_objs = [
-            DerbyName(
-                name=get_text(s.content).strip(),
-                toot_id=s.id,
-                tooted=s.created_at,
-                reblogs_count=s.reblogs_count,
-                favourites_count=s.favourites_count,
-            )
-            for s in statuses
-        ]
-        DerbyName.objects.bulk_create(new_name_objs, ignore_conflicts=True)
-        statuses = mastodon.fetch_next(statuses)
+    try:
+        account_id = mastodon.account_verify_credentials()["id"]
+        logger.info("Downloading statuses for account {0}...".format(account_id))
+        statuses = mastodon.account_statuses(account_id, exclude_replies=True)
+        while statuses:
+            # logger.debug(statuses)
+            # logger.debug(dir(statuses))
+            new_name_objs = [
+                DerbyName(
+                    name=get_text(s.content).strip(),
+                    toot_id=s.id,
+                    tooted=s.created_at,
+                    reblogs_count=s.reblogs_count,
+                    favourites_count=s.favourites_count,
+                )
+                for s in statuses
+            ]
+            DerbyName.objects.bulk_create(new_name_objs, ignore_conflicts=True)
+            statuses = mastodon.fetch_next(statuses)
+    except Exception as error:
+        logger.error(f"Error fetching toots: {error}")
+        raise self.retry(exc=error)
 
 
 @shared_task(
@@ -367,6 +397,7 @@ def toot_name(
                 toot_name.s(name.pk).apply_async(countdown=delay)
             else:
                 logger.info("Tooting name '{0}'...".format(name))
+                toot = None
                 toot_content = " ".join(
                     [str(name)] + [str(t) for t in settings.TOOT_TAGS]
                 )
@@ -397,6 +428,7 @@ def toot_name(
                     return toot_content
         else:
             logger.info("No matching names found, exiting...")
-            return False
+            return None
     except Exception as error:
         logger.error(f"Error tooting name {name_id}: {error}")
+        raise self.retry(exc=error)

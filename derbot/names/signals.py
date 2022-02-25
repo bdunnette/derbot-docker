@@ -11,7 +11,7 @@ logger = settings.LOGGER
 @receiver(pre_save, sender=DerbyName)
 def set_missing_number(sender, instance, *args, **kwargs):
     if not instance.registered and not instance.number:
-        instance.number = DerbyNumber.objects.order_by("?").first()
+        instance.number = DerbyNumber.objects.filter(cleared=True).order_by("?").first()
 
 
 @receiver(post_save, sender=DerbyName)
