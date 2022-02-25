@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                {% for jersey in jerseys %}
+                <div class="col-md-2">
+                <div class="card" >
+                    <img class="card-img-top" src="{{jersey.image.url}}" alt="{{jersey}}">
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
