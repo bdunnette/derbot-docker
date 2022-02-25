@@ -108,18 +108,22 @@ class NameAdmin(ImportExportModelAdmin):
     @admin.action(description="Mark selected names as cleared for tooting")
     def clear(self, request, queryset):
         queryset.update(cleared=True)
+        self.message_user(request, f"Cleared {queryset.count()} names")
 
     @admin.action(description="Mark selected names as NOT cleared for tooting")
     def unclear(self, request, queryset):
         queryset.update(cleared=False)
+        self.message_user(request, f"Uncleared {queryset.count()} names")
 
     @admin.action(description="Archive selected names")
     def archive(self, request, queryset):
         queryset.update(archived=True)
+        self.message_user(request, f"Archived {queryset.count()} names")
 
     @admin.action(description="Unrchive selected names")
     def unarchive(self, request, queryset):
         queryset.update(archived=False)
+        self.message_user(request, f"Unarchived {queryset.count()} names")
 
     @admin.action(description="Choose (new) numbers for selected names")
     def new_numbers(self, request, queryset):
@@ -127,7 +131,7 @@ class NameAdmin(ImportExportModelAdmin):
             print(name)
             logger.info(f"Picking new number for {name}")
             pick_number.delay(name.pk)
-        self.message_user(request, "New numbers chosen for selected names")
+        self.message_user(request, f"New numbers chosen for {queryset.count()} names")
 
     @admin.action(description="Generate tanks for selected names")
     def make_tanks(self, request, queryset):
@@ -135,6 +139,7 @@ class NameAdmin(ImportExportModelAdmin):
             print(name)
             logger.info(f"Generating tank for {name}")
             generate_tank.delay(name.pk, overwrite=True)
+        self.message_user(request, f"Tanks generated for {queryset.count()} names")
 
     @admin.action(description="Toot selected names")
     def toot(self, request, queryset):
@@ -142,6 +147,7 @@ class NameAdmin(ImportExportModelAdmin):
         for name in queryset:
             logger.info(f"Tooting {name}")
             toot_name.delay(name.pk, max_wait=0)
+        self.message_user(request, "Tooted selected names")
 
 
 @admin.register(DerbyNumber)

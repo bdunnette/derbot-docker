@@ -2,6 +2,7 @@ from colorfield.fields import ColorField
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db import models
+from model_utils import FieldTracker
 
 from .utils import hex_to_rgb
 
@@ -22,6 +23,7 @@ class DerbyName(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     meta = models.JSONField(default=dict, null=True, blank=True)
+    number_tracker = FieldTracker(fields=["number"])
 
     def __str__(self):
         return self.name

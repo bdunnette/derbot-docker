@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import string
@@ -421,7 +422,12 @@ def toot_name(
                         toot = mastodon.status_post(toot_content)
                 if toot:
                     logger.info("  Tooted at {0}".format(toot.created_at))
-                    toot_obj = Toot(toot_id=toot.id, date=toot.created_at, name=name)
+                    toot_obj = Toot(
+                        toot_id=toot.id,
+                        date=toot.created_at,
+                        name=name,
+                        meta=json.dumps(toot, default=str),
+                    )
                     toot_obj.save()
                     return toot_obj.toot_id
                 else:
