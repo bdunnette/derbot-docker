@@ -43,6 +43,35 @@ def pick_number(self, name_id):
     autoretry_for=(Exception,),
     retry_backoff=True,
 )
+def generate_tanks(self, name_ids=list(), overwrite=False):
+    try:
+        if len(name_ids) > 0:
+            names = DerbyName.objects.filter(id__in=name_ids)
+        else:
+            names = DerbyName.objects.filter(
+                number__isnull=False,
+                registered=False,
+                cleared=True,
+                jersey__isnull=True,
+            )
+        logger.info(f"Generating tanks for {len(names)} names")
+        if len(names) > 0:
+            for name in names:
+                generate_tank(name.id, overwrite=overwrite)
+        return len(names)
+    except Exception as error:
+        logger.error(f"Error generating tanks: {error}")
+        raise self.retry(exc=error)
+
+
+@shared_task(
+    bind=True,
+    default_retry_delay=30,
+    max_retries=3,
+    soft_time_limit=60,
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+)
 def generate_tank(self, name_id, overwrite=False):
     try:
         name = DerbyName.objects.get(pk=name_id)
@@ -141,8 +170,11 @@ def generate_tank(self, name_id, overwrite=False):
             name.jersey = jersey
             name.save()
             return jersey.image.url
+    except DerbyName.DoesNotExist as error:
+        logger.error(f"Name {name_id} does not exist")
+        raise self.retry(exc=error)
     except Exception as error:
-        logger.error(f"Error generating tank for {name}: {error}")
+        logger.error(f"Error generating tank: {error}")
         raise self.retry(exc=error)
 
 
@@ -395,7 +427,7 @@ def toot_name(
                 logger.info(
                     "Waiting {0} seconds before tooting {1}".format(delay, name)
                 )
-                toot_name.s(name.pk).apply_async(countdown=delay)
+                toot_name.s(name.pk, max_wait=0).apply_async(countdown=delay)
             else:
                 logger.info("Tooting name '{0}'...".format(name))
                 toot = None
