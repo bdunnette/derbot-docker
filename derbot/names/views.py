@@ -8,7 +8,7 @@ from .models import Jersey
 
 
 def jerseys(request):
-    random_jerseys = Jersey.objects.order_by("?")[:18]
+    random_jerseys = Jersey.objects.order_by("?")[:42]
     context = {"jerseys": random_jerseys}
     return render(request, "names/jerseys.html", context)
 
