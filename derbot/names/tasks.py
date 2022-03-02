@@ -392,9 +392,9 @@ def fetch_toots(self, mastodon=settings.MASTO):
 
 @shared_task(
     bind=True,
-    default_retry_delay=30,
+    default_retry_delay=300,
     max_retries=3,
-    soft_time_limit=60,
+    soft_time_limit=180,
     retry_backoff=True,
     autoretry_for=(Exception,),
 )
