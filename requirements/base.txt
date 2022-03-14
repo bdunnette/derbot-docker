@@ -5,7 +5,7 @@ argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
 whitenoise==6.0.0  # https://github.com/evansd/whitenoise
 redis==4.1.4  # https://github.com/redis/redis-py
 hiredis==2.0.0  # https://github.com/redis/hiredis-py
-uvicorn[standard]==0.17.5  # https://github.com/encode/uvicorn
+uvicorn[standard]==0.17.6  # https://github.com/encode/uvicorn
 requests==2.27.1  # https://github.com/psf/requests
 requests-toolbelt==0.9.1  # https://github.com/requests/toolbelt
 beautifulsoup4==4.10.0  # http://www.crummy.com/software/BeautifulSoup/bs4/
