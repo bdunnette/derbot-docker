@@ -8,7 +8,7 @@ hiredis==2.0.0  # https://github.com/redis/hiredis-py
 uvicorn[standard]==0.17.6  # https://github.com/encode/uvicorn
 requests==2.27.1  # https://github.com/psf/requests
 requests-toolbelt==0.9.1  # https://github.com/requests/toolbelt
-beautifulsoup4==4.10.0  # http://www.crummy.com/software/BeautifulSoup/bs4/
+beautifulsoup4==4.11.1  # http://www.crummy.com/software/BeautifulSoup/bs4/
 humanize==4.1.0  # https://github.com/jmoiron/humanize
 inscriptis==2.2.0  # https://github.com/weblyzard/inscriptis
 Mastodon.py==1.5.1  # https://github.com/halcy/Mastodon.py
