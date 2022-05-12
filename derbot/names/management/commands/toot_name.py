@@ -9,7 +9,7 @@ logger = settings.LOGGER
 
 
 class Command(BaseCommand):
-    help = 'Toots specified name(s) - or random if none specified'
+    help = "Toots specified name(s) - or random if none specified"
 
     def add_arguments(self, parser):
         parser.add_argument("name_ids", nargs="*", type=int, default=None)
