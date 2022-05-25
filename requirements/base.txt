@@ -32,7 +32,7 @@ django-redis==5.2.0  # https://github.com/jazzband/django-redis
 django-pandas==0.6.6  # https://github.com/chrisdev/django-pandas/
 django-icons==21.3  # https://github.com/zostera/django-icons
 django-import-export==2.8.0  # https://github.com/django-import-export/django-import-export
-django-colorfield==0.6.3  # https://github.com/fabiocaccamo/django-colorfield
+django-colorfield==0.7.0  # https://github.com/fabiocaccamo/django-colorfield
 
 # Django REST Framework
 djangorestframework==3.13.1  # https://github.com/encode/django-rest-framework
