@@ -12,7 +12,7 @@ beautifulsoup4==4.11.1  # http://www.crummy.com/software/BeautifulSoup/bs4/
 humanize==4.2.3  # https://github.com/jmoiron/humanize
 inscriptis==2.2.0  # https://github.com/weblyzard/inscriptis
 Mastodon.py==1.5.1  # https://github.com/halcy/Mastodon.py
-fontawesomefree==6.1.1  # https://github.com/FortAwesome/Font-Awesome
+fontawesomefree==6.1.2  # https://github.com/FortAwesome/Font-Awesome
 
 # Celery
 celery==5.2.7  # pyup: < 6.0  # https://github.com/celery/celery
@@ -38,4 +38,4 @@ django-colorfield==0.7.2  # https://github.com/fabiocaccamo/django-colorfield
 djangorestframework==3.13.1  # https://github.com/encode/django-rest-framework
 django-cors-headers==3.13.0 # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
-drf-spectacular==0.22.1  # https://github.com/tfranzel/drf-spectacular
+drf-spectacular==0.23.1  # https://github.com/tfranzel/drf-spectacular
