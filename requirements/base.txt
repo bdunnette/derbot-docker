@@ -10,7 +10,7 @@ requests==2.28.1  # https://github.com/psf/requests
 requests-toolbelt==0.9.1  # https://github.com/requests/toolbelt
 beautifulsoup4==4.11.1  # http://www.crummy.com/software/BeautifulSoup/bs4/
 humanize==4.2.3  # https://github.com/jmoiron/humanize
-inscriptis==2.2.0  # https://github.com/weblyzard/inscriptis
+inscriptis==2.3.0  # https://github.com/weblyzard/inscriptis
 Mastodon.py==1.5.1  # https://github.com/halcy/Mastodon.py
 fontawesomefree==6.1.2  # https://github.com/FortAwesome/Font-Awesome
 
