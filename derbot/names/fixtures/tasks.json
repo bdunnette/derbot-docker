@@ -1,1 +1,178 @@
-[{"model":"django_celery_beat.intervalschedule","fields":{"every":1,"period":"days"}},{"model":"django_celery_beat.intervalschedule","fields":{"every":1,"period":"hours"}},{"model":"django_celery_beat.periodictask","fields":{"name":"fetch_colors","task":"derbot.names.tasks.fetch_colors","interval":1,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"enabled":true,"last_run_at":null,"total_run_count":0,"start_time":"2000-01-01T00:00:00.00Z","date_changed":"2000-01-01T00:00:00.00Z","description":""}},{"model":"django_celery_beat.periodictask","fields":{"name":"fetch_names_drc","task":"derbot.names.tasks.fetch_names_drc","interval":1,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"enabled":true,"last_run_at":null,"total_run_count":0,"start_time":"2000-01-01T00:00:00.00Z","date_changed":"2000-01-01T00:00:00.00Z","description":""}},{"model":"django_celery_beat.periodictask","fields":{"name":"fetch_names_rdr","task":"derbot.names.tasks.fetch_names_rdr","interval":1,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"enabled":true,"last_run_at":null,"total_run_count":0,"start_time":"2000-01-01T00:00:00.00Z","date_changed":"2000-01-01T00:00:00.00Z","description":""}},{"model":"django_celery_beat.periodictask","fields":{"name":"fetch_names_twoevils","task":"derbot.names.tasks.fetch_names_twoevils","interval":1,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"enabled":true,"last_run_at":null,"total_run_count":0,"start_time":"2000-01-01T00:00:00.00Z","date_changed":"2000-01-01T00:00:00.00Z","description":""}},{"model":"django_celery_beat.periodictask","fields":{"name":"fetch_names_wftda","task":"derbot.names.tasks.fetch_names_wftda","interval":1,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"enabled":true,"last_run_at":null,"total_run_count":0,"start_time":"2000-01-01T00:00:00.00Z","date_changed":"2000-01-01T00:00:00.00Z","description":""}},{"model":"django_celery_beat.periodictask","fields":{"name":"toot_name","task":"derbot.names.tasks.toot_name","interval":12,"crontab":null,"solar":null,"clocked":null,"args":"[]","kwargs":"{}","queue":null,"exchange":null,"routing_key":null,"headers":"{}","priority":null,"expires":null,"expire_seconds":null,"one_off":false,"start_time":null,"enabled":true,"last_run_at":null,"total_run_count":0,"date_changed":"2000-01-01T00:00:00.00Z","description":""}}]
+[
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "fields": {
+            "every": 1,
+            "period": "days"
+        }
+    },
+    {
+        "model": "django_celery_beat.intervalschedule",
+        "fields": {
+            "every": 1,
+            "period": "hours"
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "fetch_colors",
+            "task": "derbot.names.tasks.fetch_colors",
+            "interval": 1,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "start_time": "2000-01-01T00:00:00.00Z",
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "fetch_names_drc",
+            "task": "derbot.names.tasks.fetch_names_drc",
+            "interval": 1,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "start_time": "2000-01-01T00:00:00.00Z",
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "fetch_names_rdr",
+            "task": "derbot.names.tasks.fetch_names_rdr",
+            "interval": 1,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "start_time": "2000-01-01T00:00:00.00Z",
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "fetch_names_twoevils",
+            "task": "derbot.names.tasks.fetch_names_twoevils",
+            "interval": 1,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "start_time": "2000-01-01T00:00:00.00Z",
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "fetch_names_wftda",
+            "task": "derbot.names.tasks.fetch_names_wftda",
+            "interval": 1,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "start_time": "2000-01-01T00:00:00.00Z",
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    },
+    {
+        "model": "django_celery_beat.periodictask",
+        "fields": {
+            "name": "toot_name",
+            "task": "derbot.names.tasks.toot_name",
+            "interval": 12,
+            "crontab": null,
+            "solar": null,
+            "clocked": null,
+            "args": "[]",
+            "kwargs": "{}",
+            "queue": null,
+            "exchange": null,
+            "routing_key": null,
+            "headers": "{}",
+            "priority": null,
+            "expires": null,
+            "expire_seconds": null,
+            "one_off": false,
+            "start_time": null,
+            "enabled": true,
+            "last_run_at": null,
+            "total_run_count": 0,
+            "date_changed": "2000-01-01T00:00:00.00Z",
+            "description": ""
+        }
+    }
+]
