@@ -470,3 +470,36 @@ def toot_name(
     except Exception as error:
         logger.error(f"Error tooting name {name_id}: {error}")
         raise self.retry(exc=error)
+
+
+@shared_task(
+    bind=True,
+    default_retry_delay=30,
+    max_retries=3,
+    soft_time_limit=60,
+    retry_backoff=True,
+    autoretry_for=(Exception,),
+)
+def fetch_generated_name(self):
+    try:
+        logger.info(f"Fetching generated name from {settings.GENERATED_NAME_URL}")
+        r = requests.get(settings.GENERATED_NAME_URL)
+        if r.status_code == 200:
+            name = r.json()["name"]
+            name_obj, created = DerbyName.objects.update_or_create(
+                name=name,
+                defaults={
+                    "meta": {"generated": True, "temperature": r.json()["temperature"]}
+                },
+            )
+            if created:
+                logger.info(f"Generated name: {name_obj}")
+            else:
+                logger.info(f"Name already exists: {name_obj}")
+            # return name_obj.pk
+            return {"name": name_obj.name, "pk": name_obj.pk, "created": created}
+        else:
+            logger.error(f"Error fetching generated name: {r.status_code}")
+    except Exception as error:
+        logger.error(f"Error fetching generated name: {error}")
+        raise self.retry(exc=error)

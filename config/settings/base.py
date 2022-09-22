@@ -70,7 +70,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.humanize",  # Handy template tags
     "django.contrib.admin",
     "django.forms",
 ]
@@ -84,12 +84,13 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.google",
     "django_celery_beat",
     "django_celery_results",
+    "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
     "django_icons",
-    # "fontawesomefree",
+    "fontawesomefree",
     "import_export",
     "colorfield",
 ]
@@ -338,6 +339,7 @@ REST_FRAMEWORK = {
     # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "PAGE_SIZE": 10,
 }
@@ -401,3 +403,6 @@ DJANGO_ICONS = {
         },
     },
 }
+
+# GENERATED_NAME_URL = env("NAME_URL", default="http://localhost:5000/name/")
+GENERATED_NAME_URL = env("GENERATED_NAME_URL", default="http://localhost:5000/name")

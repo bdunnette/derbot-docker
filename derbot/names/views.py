@@ -1,10 +1,10 @@
-from django.shortcuts import render
+import logging
 
-from .models import Jersey
+from django.shortcuts import get_object_or_404, redirect, render
 
-# from rest_framework import permissions, viewsets
-# from django.contrib.auth.models import Group, User
-# from .serializers import GroupSerializer, UserSerializer
+from .models import DerbyName, Jersey
+
+logger = logging.getLogger(__name__)
 
 
 def jerseys(request):
@@ -13,21 +13,29 @@ def jerseys(request):
     return render(request, "names/jerseys.html", context)
 
 
-# class UserViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
+def names_to_clear(request):
+    uncleared_names = (
+        DerbyName.objects.filter(cleared=False)
+        .exclude(registered=True)
+        .order_by("created")[:12]
+    )
+    context = {"names": uncleared_names}
+    return render(request, "names/names_to_clear.html", context)
 
-#     queryset = User.objects.all().order_by("-date_joined")
-#     serializer_class = UserSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+
+def approve_name(request, name_id):
+    logger.info("Approving name %s", name_id)
+    logger.debug(request)
+    name = get_object_or_404(DerbyName, pk=name_id)
+    name.cleared = True
+    name.save()
+    return redirect("names_to_clear")
 
 
-# class GroupViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-
-#     queryset = Group.objects.all()
-#     serializer_class = GroupSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+def archive_name(request, name_id):
+    logger.info("Archiving name %s", name_id)
+    logger.debug(request)
+    name = get_object_or_404(DerbyName, pk=name_id)
+    name.archived = True
+    name.save()
+    return redirect("names_to_clear")
