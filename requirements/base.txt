@@ -33,6 +33,7 @@ django-pandas==0.6.6  # https://github.com/chrisdev/django-pandas/
 django-icons==21.3  # https://github.com/zostera/django-icons
 django-import-export==2.9.0  # https://github.com/django-import-export/django-import-export
 django-colorfield==0.7.2  # https://github.com/fabiocaccamo/django-colorfield
+django-filter==22.1  # https://github.com/carltongibson/django-filter/tree/main
 
 # Django REST Framework
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework

@@ -9,6 +9,9 @@ class NameSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            # 'created',
-            # 'updated'
+            "registered",
+            "cleared",
+            "archived",
+            "created",
+            "updated",
         )

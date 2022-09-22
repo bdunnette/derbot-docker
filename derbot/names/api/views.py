@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.mixins import (
     CreateModelMixin,
     ListModelMixin,
@@ -20,4 +21,6 @@ class NameViewSet(
 ):
     serializer_class = NameSerializer
     queryset = DerbyName.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ("cleared", "registered", "archived")
     lookup_field = "id"
