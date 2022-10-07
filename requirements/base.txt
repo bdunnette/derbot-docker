@@ -7,7 +7,7 @@ redis==4.3.4  # https://github.com/redis/redis-py
 hiredis==2.0.0  # https://github.com/redis/hiredis-py
 uvicorn[standard]==0.18.3  # https://github.com/encode/uvicorn
 requests==2.28.1  # https://github.com/psf/requests
-requests-toolbelt==0.9.1  # https://github.com/requests/toolbelt
+requests-toolbelt==0.10.0  # https://github.com/requests/toolbelt
 beautifulsoup4==4.11.1  # http://www.crummy.com/software/BeautifulSoup/bs4/
 humanize==4.4.0  # https://github.com/jmoiron/humanize
 inscriptis==2.3.1  # https://github.com/weblyzard/inscriptis
