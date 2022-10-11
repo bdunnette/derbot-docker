@@ -8,11 +8,16 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from derbot.names.views import jerseys
+from derbot.names.views import approve_name, archive_name, jerseys
 
 urlpatterns = [
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path("", names_to_clear, name="home"),
+    # path("", names_to_clear, name="names_to_clear"),
     path("", jerseys, name="home"),
+    path("jerseys/", jerseys, name="jerseys"),
+    path("approve/<int:name_id>/", approve_name, name="approve_name"),
+    path("archive/<int:name_id>/", archive_name, name="archive_name"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load icons %}
+
+
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                {% for name in names %}
+                <div class="col-md-2">
+                <div class="card" >
+                    {% if name.jersey.image.url %}
+                        <img class="card-img-top" src="{{name.jersey.image.url}}" alt="{{name.name}}">
+                    {% comment %} {% else %}
+                        <img class="card-img-top" src="https://via.placeholder.com/150" alt="{{name.name}}"> {% endcomment %}
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{name.name}}</h5>
+                    </div>
+                    <form action="{% url 'approve_name' name.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">{% icon 'thumbs-up' %} Approve</button>
+                    </form>
+                    <form action="{% url 'archive_name' name.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">{% icon 'thumbs-down' %} Reject</button>
+                    </form>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}

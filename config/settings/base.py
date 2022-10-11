@@ -70,7 +70,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.humanize",  # Handy template tags
     "django.contrib.admin",
     "django.forms",
 ]
@@ -84,12 +84,13 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.google",
     "django_celery_beat",
     "django_celery_results",
+    "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
     "django_icons",
-    # "fontawesomefree",
+    "fontawesomefree",
     "import_export",
     "colorfield",
 ]
@@ -335,11 +336,17 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    # "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "PAGE_SIZE": 10,
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ALLOW_ALL_ORIGINS = True
 
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
@@ -347,7 +354,8 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "DerBot API",
     "DESCRIPTION": "Documentation of API endpoints of DerBot",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    # "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     "SERVERS": [
         {"url": "http://127.0.0.1:8000", "description": "Local Development server"},
         {"url": "https://derbot.dunnette.us", "description": "Production server"},
@@ -379,20 +387,6 @@ MAX_NUMBER_WIDTH = env.int("MAX_TEXT_WIDTH", default=280)
 
 TOOT_TAGS = env.list("TOOT_TAGS", default=["#derbynames"])
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "WARNING",
-    },
-}
-
 DJANGO_ICONS = {
     "DEFAULTS": {
         "renderer": "fontawesome4",
@@ -409,3 +403,6 @@ DJANGO_ICONS = {
         },
     },
 }
+
+# GENERATED_NAME_URL = env("NAME_URL", default="http://localhost:5000/name/")
+GENERATED_NAME_URL = env("GENERATED_NAME_URL", default="http://localhost:5000/name")
