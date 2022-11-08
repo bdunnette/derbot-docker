@@ -5,7 +5,6 @@ Behold My Awesome Project!
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![CodeQL](https://github.com/bdunnette/derbot-docker/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/bdunnette/derbot-docker/actions/workflows/codeql-analysis.yml)
-[![CI](https://github.com/bdunnette/derbot-docker/actions/workflows/ci.yml/badge.svg)](https://github.com/bdunnette/derbot-docker/actions/workflows/ci.yml)
 [![Docker Image CI](https://github.com/bdunnette/derbot-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/bdunnette/derbot-docker/actions/workflows/docker-image.yml)
 
 License: MIT
