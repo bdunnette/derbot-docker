@@ -24,7 +24,7 @@ django-celery-results==2.4.0  # https://github.com/celery/django-celery-results
 # ------------------------------------------------------------------------------
 django==3.2.16  # pyup: < 4.0  # https://www.djangoproject.com/
 django-environ==0.9.0  # https://github.com/joke2k/django-environ
-django-model-utils==4.2.0  # https://github.com/jazzband/django-model-utils
+django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
 django-allauth==0.51.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==1.14.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
